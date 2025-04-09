@@ -1,11 +1,17 @@
-name: Feature Branch Workflow  
-on:  
-  push:  
-    branches:  
-      - "feature/*"  
-jobs:  
-  test:  
-    runs-on: ubuntu-latest  
-    steps:    
-      - name: Run Tests  
-        run: echo "Running tests on feature branches!"
+name: Create new Branch
+run-name: Create a Neon Branch
+jobs:
+  Create-Neon-Branch: null
+  steps:
+    - uses: neondatabase/create-branch-action@v5
+      id: create-branch
+      with:
+        project_id: rapid-haze-373089
+        parent: dev
+        database: my-database
+        branch_name: from_action_reusable
+        username: db_user_for_url
+        api_key: '${{ secrets.NEON_API_KEY }}'
+    - run: 'echo db_url ${{ steps.create-branch.outputs.db_url }}'
+    - run: 'echo host ${{ steps.create-branch.outputs.host }}'
+    - run: 'echo branch_id ${{ steps.create-branch.outputs.branch_id }}'
